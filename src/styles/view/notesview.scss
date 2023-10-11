@@ -1,0 +1,35 @@
+.notes{
+    background: var(--notesview-bg-color);
+    min-height: 15vw;
+    margin-bottom: 2em;
+    border-radius: 1em;
+    cursor: pointer;
+    transition: background .2s linear;
+    &:hover {
+        background: var(--notesview-bg-hover-color);
+    }
+    &__header{
+        padding: 0.5em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        border-bottom: 1px solid hsl(0, 0%, 80%);
+    }
+    &__title{
+        font-size: 1.2em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    &__body{
+        padding: 0.5em;
+        max-height: 30vw;
+        overflow: auto;
+    }
+    &__bottom{
+        padding: 0.5em;
+    }
+    &:last-child{
+        margin-bottom: 0;
+    }
+}
