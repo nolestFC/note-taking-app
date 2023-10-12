@@ -1,15 +1,15 @@
 import { noteItem, noteItemList } from '../model/note.model';
 export default class NotesStorageAPI {
-    static savingKey = 'notesapp-notes';
+    static savingKey = 'notesapp-notes-coats';
     static idPrefix = '__noteid__';
     static init(): void {
         if(!window.localStorage) {
             console.log('browser did not support localStorage');
         }
         //init mockData
-        this.mockData();
+        this.mockData(false);
     }
-    static mockData(): void {
+    static mockData(force:boolean): void {
         let mocklist: noteItem[] = [];
         const data0:noteItem = {
             id: this.idPrefix + '2023-10-11T16:43:50.574Z',
@@ -29,7 +29,7 @@ export default class NotesStorageAPI {
         }
         mocklist.push(data0);
         mocklist.push(data1);
-        if(!localStorage.getItem(this.savingKey)){
+        if(!localStorage.getItem(this.savingKey) || force){
             localStorage.setItem(this.savingKey, JSON.stringify(mocklist));
         }
     }
@@ -75,7 +75,9 @@ export default class NotesStorageAPI {
                 recordArray.push(item)
                 localStorage.setItem(this.savingKey, JSON.stringify(recordArray));
             }
+            // er.. reload , not really
             location.reload()
+            //maybe use event or useContext
             //window.dispatchEvent(new Event("storage"));
             return 1
         }
@@ -93,6 +95,7 @@ export default class NotesStorageAPI {
         const notes = this.getAllNotes();
         const newNotes = notes.filter((note) => note.id != id);
         localStorage.setItem(this.savingKey, JSON.stringify(newNotes));
+        // er.. reload , not really
         location.reload()
         //window.dispatchEvent(new Event("storage"));
         return 1
@@ -112,5 +115,10 @@ export default class NotesStorageAPI {
     }
     static getNewID(): string {
         return this.idPrefix + new Date().toISOString();
+    }
+    static resetData(): void {
+        this.mockData(true);
+        // er.. reload , not really
+        location.reload();
     }
 }

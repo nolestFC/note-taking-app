@@ -25,6 +25,9 @@ const LocalizedModal = () => {
       setOpen(true);
     };
   
+    const resetData = () => {
+      NotesStorageAPI.resetData();
+    }
     const hideModal = () => {
       setOpen(false);
     };
@@ -56,6 +59,7 @@ const LocalizedModal = () => {
       <>
         <ReachableContext.Provider value="Light">
             <Button type="primary" block onClick={showModal}>Save Note</Button>
+            <Button type="link" onClick={resetData}> Reset Data </Button>
             <Modal
             title="Confirm Save This Note?"
             open={open}
