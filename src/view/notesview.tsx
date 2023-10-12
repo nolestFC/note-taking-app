@@ -1,16 +1,14 @@
 
 import { noteItem } from '../model/note.model'
 import { DeleteTwoTone, UploadOutlined } from '@ant-design/icons';
-import { Button, message, Popconfirm } from 'antd';
+import { message, Popconfirm } from 'antd';
 import NotesStorageAPI from '../util/storage';
 
 let currentId: string;
 const confirm = (e: React.MouseEvent<HTMLElement>) => {
-    console.log(e);
     message.success('Click on Yes');
     deleteItemById(currentId);
   };
-
 
 function Notesview(itemObject: noteItem) {
   return (
@@ -21,7 +19,7 @@ function Notesview(itemObject: noteItem) {
                     { itemObject.title }
                 </div>
                 <div className='notes__control'>
-                    <UploadOutlined twoToneColor="#eb2f96" style={{ fontSize: '1.6em', marginRight: '0.2em'}} onClick={() => {}}/>
+                    <UploadOutlined twoToneColor="#eb2f96" style={{ fontSize: '1.6em', marginRight: '0.2em', display: 'none'}} onClick={() => {}}/>
                     <Popconfirm
                         title="Delete the note"
                         description="Are you sure to delete this note?"
@@ -30,8 +28,7 @@ function Notesview(itemObject: noteItem) {
                         cancelText="No"
                     >
                         <DeleteTwoTone twoToneColor="#eb2f96" style={{ fontSize: '1.6em'}} onClick={() => {currentId = itemObject.id}}/>
-                    </Popconfirm>
-                    
+                    </Popconfirm> 
                 </div>
             </div>
             <div className='notes__body flex-1'>
@@ -53,7 +50,6 @@ function convertTime(timestr: string): string {
 }
 
 function deleteItemById(id: string): void {
-    //console.log('111')
     NotesStorageAPI.deleteItem(id)
 }
 export default Notesview

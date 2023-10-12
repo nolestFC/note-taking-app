@@ -8,8 +8,3 @@ export type noteItem = {
 }
 
 export type noteItemList = Array<noteItem>
-
-export type currentInputs = {
-    inputValue: string;
-    textAreaValue: string;
-}
