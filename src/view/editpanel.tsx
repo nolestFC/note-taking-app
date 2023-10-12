@@ -1,11 +1,46 @@
 import { useState, createContext } from 'react';
-import { Button, ConfigProvider, Input, Modal, theme } from 'antd';
+import { Button, ConfigProvider, Input, Modal, theme, Upload, message } from 'antd';
 import NotesStorageAPI from '../util/storage';
 import { noteItem, currentInputs } from '../model/note.model';
+import CsvDownloadButton from 'react-json-to-csv';
+import csvToJson from 'convert-csv-to-json';
+import type { UploadProps } from 'antd';
+
 const { TextArea } = Input;
 let inputValue: string;
 let textareaValue: string;
 let currentEditObject: noteItem;
+let csvData = [
+  ["firstname", "lastname", "email"],
+  ["Ahmed", "Tomi", "ah@smthing.co.com"],
+  ["Raed", "Labes", "rl@smthing.co.com"],
+  ["Yezzi", "Min l3b", "ymin@cocococo.com"]
+];
+
+const props: UploadProps = {
+  name: 'file',
+  action: 'https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188',
+  headers: {
+    authorization: 'authorization-text',
+  },
+  onChange(info) {
+    if (info.file.status !== 'uploading') {
+      console.log(info.file, info.fileList);
+    }
+    if (info.file.status === 'done') {
+      //message.success(`${info.file.name} file uploaded successfully`);
+      console.log(info)
+      // let json = csvToJson.getJsonFromCsv(info.file.name);
+      // console.log(json)
+      // for(let i=0; i<json.length;i++){
+      //     console.log(json[i]);
+      // }
+    } else if (info.file.status === 'error') {
+      message.error(`${info.file.name} file upload failed.`);
+    }
+  },
+};
+
 const ReachableContext = createContext<string | null>(null);
 
 const config = {
@@ -17,9 +52,9 @@ const config = {
       </>
     ),
   };
-
 const LocalizedModal = () => {
     const [open, setOpen] = useState(false);
+    const [csvData, setcsvData] = useState<noteItem[]>();
     const [lv2modal, contextHolder] = Modal.useModal();
     const showModal = () => {
       setOpen(true);
@@ -30,8 +65,14 @@ const LocalizedModal = () => {
     }
     const hideModal = () => {
       setOpen(false);
-    };
-  
+    }
+    const importCSV = () => {
+      
+    }
+    const exportCSV = () => {
+      let array:noteItem[] = NotesStorageAPI.getAllNotes();
+      setcsvData(array);
+    }
     const doSave = () => {
         if(!inputValue){
             lv2modal.error(config);
@@ -60,6 +101,10 @@ const LocalizedModal = () => {
         <ReachableContext.Provider value="Light">
             <Button type="primary" block onClick={showModal}>Save Note</Button>
             <Button type="link" onClick={resetData}> Reset Data </Button>
+            <Upload {...props}>
+              <Button style={{ marginTop: '3em', marginBottom: "2em"}}>Import Notes from CSV(not working)</Button>
+            </Upload>
+            <CsvDownloadButton data={csvData} onMouseOver={exportCSV}>Export Notes to CSV(working)</CsvDownloadButton>
             <Modal
             title="Confirm Save This Note?"
             open={open}
@@ -73,6 +118,7 @@ const LocalizedModal = () => {
             </Modal>
             {contextHolder}
         </ReachableContext.Provider>
+        
       </>
     );
   };

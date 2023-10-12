@@ -3,6 +3,7 @@ import { noteItem } from '../model/note.model'
 import { DeleteTwoTone, UploadOutlined } from '@ant-design/icons';
 import { Button, message, Popconfirm } from 'antd';
 import NotesStorageAPI from '../util/storage';
+
 let currentId: string;
 const confirm = (e: React.MouseEvent<HTMLElement>) => {
     console.log(e);
@@ -20,7 +21,7 @@ function Notesview(itemObject: noteItem) {
                     { itemObject.title }
                 </div>
                 <div className='notes__control'>
-                    <UploadOutlined twoToneColor="#eb2f96" style={{ fontSize: '1.6em', marginRight: '0.2em'}}/>
+                    <UploadOutlined twoToneColor="#eb2f96" style={{ fontSize: '1.6em', marginRight: '0.2em'}} onClick={() => {}}/>
                     <Popconfirm
                         title="Delete the note"
                         description="Are you sure to delete this note?"
